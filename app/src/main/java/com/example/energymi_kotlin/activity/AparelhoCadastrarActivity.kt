@@ -28,13 +28,16 @@ class AparelhoCadastrarActivity : Activity() {
 
         edtNome.setText(sharedPreferences.getString("nome", ""))
         edtTipo.setText(sharedPreferences.getString("tipo", ""))
-        edtWatts.setText(sharedPreferences.getString("watts", ""))
+
+        val watts = sharedPreferences.getInt("watts", 0)
+        edtWatts.setText(watts.toString())
 
         aparelhoRepository = AparelhoRepository()
 
         btnEnviar.setOnClickListener {
             val nome = edtNome.text.toString()
             val tipo = edtTipo.text.toString()
+
             val watts = edtWatts.text.toString().toIntOrNull() ?: 0
 
             val aparelho = Aparelho(null, nome, tipo, watts)
@@ -42,7 +45,7 @@ class AparelhoCadastrarActivity : Activity() {
             with(sharedPreferences.edit()) {
                 putString("nome", nome)
                 putString("tipo", tipo)
-                putString("watts", watts.toString())
+                putInt("watts", watts)
                 apply()
             }
 
@@ -62,5 +65,4 @@ class AparelhoCadastrarActivity : Activity() {
             }
         }
     }
-
 }
